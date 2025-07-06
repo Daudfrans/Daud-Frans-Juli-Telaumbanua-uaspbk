@@ -8,7 +8,7 @@
 
       <!-- KANAN: Tabel & Tombol -->
       <div class="right">
-        <p v-if="cart.length === 0" class="empty-message">
+        <p v-if="keranjang.length === 0" class="empty-message">
           Keranjangmu masih kosong.
         </p>
 
@@ -23,12 +23,12 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(item, index) in cart" :key="item.id">
+              <tr v-for="(item, index) in keranjang" :key="item.id">
                 <td>{{ item.name }}</td>
-                <td>{{ item.qty }}</td>
-                <td>Rp {{ (item.price * item.qty).toLocaleString() }}</td>
+                <td>{{ item.jumlah }}</td>
+                <td>Rp {{ (item.price * item.jumlah).toLocaleString() }}</td>
                 <td>
-                  <button @click="removeItem(index)" class="delete-btn">Hapus</button>
+                  <button @click="hapusItem(index)" class="delete-btn">Hapus</button>
                 </td>
               </tr>
             </tbody>
@@ -36,13 +36,13 @@
               <tr>
                 <td colspan="2"></td>
                 <td class="total-label">Total:</td>
-                <td class="total-value">Rp {{ totalPrice.toLocaleString() }}</td>
+                <td class="total-value">Rp {{ totalHarga.toLocaleString() }}</td>
               </tr>
             </tfoot>
           </table>
         </div>
 
-        <button v-if="cart.length > 0" @click="checkout" class="checkout-btn">
+        <button v-if="keranjang.length > 0" @click="checkout" class="checkout-btn">
           Checkout
         </button>
       </div>
@@ -50,35 +50,32 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      cart: [
-        { id: 1, name: 'Nasi Goreng Spesial', price: 25000, qty: 2 },
-        { id: 3, name: 'Sate Ayam Madura', price: 30000, qty: 1 },
-      ],
-    };
-  },
-  computed: {
-    totalPrice() {
-      return this.cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-    },
-  },
-  methods: {
-    removeItem(index) {
-      this.cart.splice(index, 1);
-    },
-    checkout() {
-      alert('Pesanan telah diproses. Terima kasih!');
-      this.cart = [];
-      this.$router.push('/orders');
-    },
-  },
-};
+<script setup>
+import { useTransaksiStore } from '../stores/transaksiStore.js'
+import { useRouter } from 'vue-router'
+import { computed } from 'vue'
+
+const transaksiStore = useTransaksiStore()
+const router = useRouter()
+
+const keranjang = computed(() => transaksiStore.keranjang)
+const totalHarga = computed(() =>
+  keranjang.value.reduce((sum, item) => sum + item.price * item.jumlah, 0)
+)
+
+function hapusItem(index) {
+  transaksiStore.hapusDariKeranjang(index)
+}
+
+function checkout() {
+  alert('Pesanan telah diproses. Terima kasih!')
+  transaksiStore.checkout() // buat method ini di store untuk bersihkan keranjang
+  router.push('/orders')
+}
 </script>
 
 <style scoped>
+/* Styling kamu tetap dipakai tanpa diubah banyak */
 .wrapper {
   min-height: 100vh;
   display: flex;
@@ -214,7 +211,6 @@ export default {
   box-shadow: 0 10px 30px rgba(251, 146, 60, 0.6);
 }
 
-/* Responsif */
 @media (max-width: 768px) {
   .container {
     flex-direction: column;

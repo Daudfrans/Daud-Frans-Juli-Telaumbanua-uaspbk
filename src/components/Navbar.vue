@@ -38,7 +38,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .navbar {
   background: #fff;
   border-bottom: 1px solid #eee;
