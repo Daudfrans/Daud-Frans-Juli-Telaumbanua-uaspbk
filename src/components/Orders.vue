@@ -1,141 +1,133 @@
 <template>
-  <section class="orders-container max-w-4xl mx-auto p-6 bg-gradient-to-b from-white to-orange-50 rounded-2xl shadow-xl mt-10 border border-orange-200">
-    <h1 class="orders-title text-4xl font-bold mb-8 text-orange-700 drop-shadow-sm tracking-wide text-center">
-      Riwayat Pesanan
-    </h1>
+  <section class="riwayat-container">
+    <div class="riwayat-box">
+      <h1 class="riwayat-title">Riwayat Pesanan</h1>
 
-    <p v-if="orders.length === 0" class="empty-message text-gray-600 text-center py-16 text-xl">
-      Belum ada pesanan.
-    </p>
+      <p v-if="orders.length === 0" class="riwayat-empty">
+        Belum ada pesanan.
+      </p>
 
-    <transition-group name="fade" tag="ul" class="space-y-6" v-else>
-      <li
-        v-for="order in orders"
-        :key="order.id"
-        class="order-item bg-white hover:bg-orange-50 border border-gray-200 rounded-xl p-6 shadow-md hover:shadow-orange-200 transition-transform duration-300 transform hover:scale-105 cursor-pointer"
-        @click="viewOrderDetail(order.id)"
-      >
-        <div class="flex justify-between items-center mb-4">
-          <p class="order-id text-lg font-semibold text-orange-600">
-            📦 ID: {{ order.id }}
-          </p>
-          <p
-            :class="[
-              'order-status px-3 py-1 rounded-full text-white text-sm font-semibold flex items-center gap-2 shadow-sm',
-              order.status === 'Selesai' ? 'bg-green-600' :
-              order.status === 'Dikirim' ? 'bg-blue-600' :
-              'bg-amber-500'
-            ]"
-          >
-            <span v-if="order.status === 'Selesai'">✅</span>
-            <span v-else-if="order.status === 'Dikirim'">🚚</span>
-            <span v-else>⏳</span>
-            {{ order.status }}
-          </p>
-        </div>
-
-        <p class="order-date text-gray-500 mb-2 text-sm">
-          🗓️ Tanggal: {{ formatDate(order.date) }}
-        </p>
-
-        <p class="order-detail-label text-base font-semibold mb-1 text-gray-800">
-          📝 Rincian Pesanan:
-        </p>
-        <ul class="list-disc list-inside text-gray-700 space-y-1 pl-4">
-          <li v-for="item in order.items" :key="item.id">
-            {{ item.name }} x{{ item.qty }}
-          </li>
-        </ul>
-
-        <p class="text-sm text-gray-500 mt-3 italic">
-          Total item: {{ totalItems(order.items) }}
-        </p>
-      </li>
-    </transition-group>
+      <div v-else class="riwayat-table-wrapper">
+        <table class="riwayat-table">
+          <thead>
+            <tr>
+              <th>ID Pesanan</th>
+              <th>Tanggal</th>
+              <th>Item</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="order in orders" :key="order.id">
+              <td>#{{ order.id }}</td>
+              <td>{{ formatDate(order.waktu) }}</td>
+              <td>
+                <ul>
+                  <li v-for="item in order.items" :key="item.id">
+                    {{ item.name }} x{{ item.jumlah }}
+                  </li>
+                </ul>
+              </td>
+              <td class="text-right">Rp {{ order.total.toLocaleString() }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </section>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      orders: [
-        {
-          id: 'ORD001',
-          date: '2025-05-25',
-          status: 'Selesai',
-          items: [
-            { id: 1, name: 'Nasi Goreng Spesial', qty: 1 },
-            { id: 2, name: 'Mie Ayam Bakso', qty: 2 },
-          ],
-        },
-        {
-          id: 'ORD002',
-          date: '2025-05-20',
-          status: 'Dikirim',
-          items: [{ id: 3, name: 'Sate Ayam Madura', qty: 3 }],
-        },
-      ],
-    };
-  },
-  methods: {
-    formatDate(dateStr) {
-      const date = new Date(dateStr);
-      return isNaN(date)
-        ? 'Tanggal tidak valid'
-        : date.toLocaleDateString('id-ID', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          });
-    },
-    totalItems(items) {
-      return items.reduce((sum, item) => sum + item.qty, 0);
-    },
-    viewOrderDetail(id) {
-      // Idealnya arahkan ke halaman detail pesanan
-      alert(`Detail pesanan ${id} belum tersedia.`);
-    },
-  },
-};
+<script setup>
+import { onMounted, computed } from 'vue'
+import { useTransaksiStore } from '../stores/transaksiStore.js'
+
+const transaksiStore = useTransaksiStore()
+const orders = computed(() => transaksiStore.riwayatTransaksi.reverse())
+
+onMounted(() => {
+  transaksiStore.fetchRiwayatTransaksi()
+})
+
+function formatDate(dateStr) {
+  const date = new Date(dateStr)
+  return isNaN(date)
+    ? 'Tanggal tidak valid'
+    : date.toLocaleDateString('id-ID', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      })
+}
 </script>
 
 <style scoped>
-.orders-title {
-  user-select: none;
+.riwayat-container {
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 1.5rem;
 }
 
-.empty-message {
+.riwayat-box {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 1rem;
+  border: 1px solid #fdba74;
+  box-shadow: 0 8px 24px rgba(253, 186, 116, 0.2);
+}
+
+.riwayat-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ea580c;
+  margin-bottom: 2rem;
+}
+
+.riwayat-empty {
+  text-align: center;
   font-size: 1.25rem;
-  user-select: none;
+  color: #6b7280;
+  padding: 4rem 0;
 }
 
-.order-item {
-  user-select: none;
+.riwayat-table-wrapper {
+  overflow-x: auto;
 }
 
-.order-id,
-.order-date {
-  user-select: text;
+.riwayat-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+  font-size: 0.95rem;
 }
 
-.order-status {
-  user-select: none;
-  text-transform: uppercase;
+.riwayat-table thead {
+  background-color: #fff7ed;
 }
 
-.order-detail-label {
-  user-select: none;
+.riwayat-table th,
+.riwayat-table td {
+  border: 1px solid #fcd34d;
+  padding: 1rem;
+  vertical-align: top;
+  text-align: left;
 }
 
-/* Transition */
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 0.4s ease;
+.riwayat-table td ul {
+  padding-left: 1.25rem;
+  list-style: disc;
 }
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-  transform: translateY(10px);
+
+.riwayat-table td.text-right {
+  text-align: right;
+  font-weight: bold;
+  color: #ea580c;
+}
+
+.riwayat-table tbody tr:hover {
+  background-color: #fffaf0;
+  transition: background-color 0.3s ease;
 }
 </style>

@@ -1,0 +1,72 @@
+{
+  "transaksi": [
+    {
+      "id": 1751807054062,
+      "items": [
+        {
+          "id": 2,
+          "name": "Mie Ayam Bakso",
+          "description": "Mie ayam dengan bakso lezat.",
+          "price": 20000,
+          "image": "/src/assets/mie-ayam.jpg",
+          "jumlah": 1
+        }
+      ],
+      "total": 20000,
+      "waktu": "2025-07-06T13:04:14.062Z"
+    },
+    {
+      "id": 1751807063022,
+      "items": [
+        {
+          "id": 2,
+          "name": "Mie Ayam Bakso",
+          "description": "Mie ayam dengan bakso lezat.",
+          "price": 20000,
+          "image": "/src/assets/mie-ayam.jpg",
+          "jumlah": 1
+        }
+      ],
+      "total": 20000,
+      "waktu": "2025-07-06T13:04:23.022Z"
+    },
+    {
+      "id": 1751807077158,
+      "items": [
+        {
+          "id": 1,
+          "name": "Nasi Goreng Spesial",
+          "description": "Nasi goreng dengan telur dan ayam.",
+          "price": 25000,
+          "image": "/src/assets/nasi-goreng.jpg",
+          "jumlah": 1
+        },
+        {
+          "id": 3,
+          "name": "Sate Ayam Madura",
+          "description": "Sate ayam dengan bumbu khas madura.",
+          "price": 30000,
+          "image": "/src/assets/sate-ayam.jpg",
+          "jumlah": 1
+        }
+      ],
+      "total": 55000,
+      "waktu": "2025-07-06T13:04:37.158Z"
+    },
+    {
+      "id": 1751807863861,
+      "items": [
+        {
+          "id": 1,
+          "name": "Nasi Goreng Spesial",
+          "description": "Nasi goreng dengan telur dan ayam.",
+          "price": 25000,
+          "image": "/src/assets/nasi-goreng.jpg",
+          "jumlah": 1
+        }
+      ],
+      "total": 25000,
+      "waktu": "2025-07-06T13:17:43.861Z"
+    }
+  ]
+}

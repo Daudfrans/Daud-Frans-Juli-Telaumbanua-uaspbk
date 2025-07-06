@@ -3,10 +3,10 @@
     <h1 class="title">Selamat Datang di Foodiez!</h1>
     <p class="subtitle">Temukan makanan favoritmu dan pesan dengan mudah.</p>
 
-    <!-- Daftar menu makanan -->
+    <!-- Daftar menu dari store -->
     <div class="menu-grid">
       <div
-        v-for="item in menuList"
+        v-for="item in menuStore.daftarMenu"
         :key="item.id"
         class="menu-card"
         @click="goToDetail(item.id)"
@@ -28,27 +28,19 @@
 </template>
 
 <script>
-// Import gambar lokal
-import nasiGorengImg from '../assets/nasi-goreng.jpg';
-import mieAyamImg from '../assets/mie-ayam.jpg';
-import sateAyamImg from '../assets/sate-ayam.jpg';
+import { useMenuStore } from '../stores/menuStore.js'
 
 export default {
-  data() {
-    return {
-      menuList: [
-        { id: 1, name: 'Nasi Goreng Spesial', price: 25000, image: nasiGorengImg },
-        { id: 2, name: 'Mie Ayam Bakso', price: 20000, image: mieAyamImg },
-        { id: 3, name: 'Sate Ayam Madura', price: 30000, image: sateAyamImg },
-      ],
-    };
+  setup() {
+    const menuStore = useMenuStore()
+    return { menuStore }
   },
   methods: {
     goToDetail(id) {
-      this.$router.push(`/menu/${id}`);
-    },
-  },
-};
+      this.$router.push(`/menu/${id}`)
+    }
+  }
+}
 </script>
 
 <style scoped>
