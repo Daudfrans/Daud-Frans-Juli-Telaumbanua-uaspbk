@@ -69,8 +69,8 @@ function hapusItem(index) {
 
 function checkout() {
   alert('Pesanan telah diproses. Terima kasih!')
-  transaksiStore.checkout() // buat method ini di store untuk bersihkan keranjang
-  router.push('/orders')
+  transaksiStore.checkout() 
+  // router.push('/orders')
 }
 </script>
 

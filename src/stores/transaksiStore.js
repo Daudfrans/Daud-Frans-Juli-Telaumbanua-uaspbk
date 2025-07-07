@@ -31,7 +31,6 @@ export const useTransaksiStore = defineStore('transaksi', {
         checkout() {
             // Simpan ke riwayat kalau perlu
             this.simpanTransaksi()
-            this.keranjang = []
         },
 
 

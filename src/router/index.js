@@ -61,7 +61,6 @@ const router = createRouter({
   routes
 });
 
-// Simulasi fungsi cek status login (ganti dengan autentikasi nyata)
 function isLoggedIn() {
   // Misal cek token di localStorage
   return !!localStorage.getItem('token');
