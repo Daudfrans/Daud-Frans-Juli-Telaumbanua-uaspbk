@@ -1,7 +1,7 @@
 {
   "transaksi": [
     {
-      "id": 1751807054062,
+      "id": "1751807054062",
       "items": [
         {
           "id": 2,
@@ -16,7 +16,7 @@
       "waktu": "2025-07-06T13:04:14.062Z"
     },
     {
-      "id": 1751807063022,
+      "id": "1751807063022",
       "items": [
         {
           "id": 2,
@@ -31,7 +31,7 @@
       "waktu": "2025-07-06T13:04:23.022Z"
     },
     {
-      "id": 1751807077158,
+      "id": "1751807077158",
       "items": [
         {
           "id": 1,
@@ -54,7 +54,7 @@
       "waktu": "2025-07-06T13:04:37.158Z"
     },
     {
-      "id": 1751807863861,
+      "id": "1751807863861",
       "items": [
         {
           "id": 1,
@@ -67,6 +67,44 @@
       ],
       "total": 25000,
       "waktu": "2025-07-06T13:17:43.861Z"
+    },
+    {
+      "id": "1751859644758",
+      "items": [
+        {
+          "id": 1,
+          "name": "Nasi Goreng Spesial",
+          "description": "Nasi goreng dengan telur dan ayam.",
+          "price": 25000,
+          "image": "/assets/nasi-goreng-DUrffNzN.jpg",
+          "jumlah": 3
+        },
+        {
+          "id": 2,
+          "name": "Mie Ayam Bakso",
+          "description": "Mie ayam dengan bakso lezat.",
+          "price": 20000,
+          "image": "/assets/mie-ayam-B9sBBRrR.jpg",
+          "jumlah": 1
+        }
+      ],
+      "total": 95000,
+      "waktu": "2025-07-07T03:40:44.759Z"
+    },
+    {
+      "id": 1751859753253,
+      "items": [
+        {
+          "id": 1,
+          "name": "Nasi Goreng Spesial",
+          "description": "Nasi goreng dengan telur dan ayam.",
+          "price": 25000,
+          "image": "/assets/nasi-goreng-DUrffNzN.jpg",
+          "jumlah": 1
+        }
+      ],
+      "total": 25000,
+      "waktu": "2025-07-07T03:42:33.253Z"
     }
   ]
 }
